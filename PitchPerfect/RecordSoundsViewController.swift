@@ -43,7 +43,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         audioRecorder.record()
     }
    
-    //Trying to figure out how to implement start and stop record in one function. Clean up code
         
 
     @IBAction func stopRecording(_ sender: Any) {
