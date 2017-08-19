@@ -21,12 +21,23 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         stopRecordingButton.isEnabled = false
     }
+    //Created this function to reduce repetitive code in @IBAction recordAudio and stopRecording
+    func setUIStateForRecording(isRecording: Bool) {
+        if isRecording {
+            recordingLabel?.text = "Recording In Progress"
+            recordButton.isEnabled = false
+            stopRecordingButton.isEnabled = true
+        } else {
+            recordingLabel?.text = "Recording Stopped"
+            recordButton.isEnabled = true
+            stopRecordingButton.isEnabled = false
+            recordingLabel?.text = "Tap to Record"
+        }
+    }
 
     
     @IBAction func recordAudio(_ sender: Any) {
-        recordingLabel?.text = "Recording In Progress"
-        stopRecordingButton.isEnabled = true
-        recordButton.isEnabled = false
+        setUIStateForRecording(isRecording: true)
         
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true)[0] as String
         let recordingName = "recordedVoice.wav"
@@ -46,10 +57,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         
 
     @IBAction func stopRecording(_ sender: Any) {
-        recordingLabel?.text = "Recording Stopped"
-        recordButton.isEnabled = true
-        stopRecordingButton.isEnabled = false
-        recordingLabel?.text = "Tap to Record"
+        setUIStateForRecording(isRecording: false)
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
         try! audioSession.setActive(false)
